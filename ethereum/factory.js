@@ -51,7 +51,7 @@ const abi = [
 
 const instance = new web3.eth.Contract(
   abi,
-  '0xE050C47Ab22FB36f7779c5Ca1B4ae6D5d379Fda3'
+  '0x339e7091473F94ec1dB031Cb5b175932eC057a94'
 );
 
 export default instance;
