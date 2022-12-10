@@ -74,17 +74,23 @@ function Show({ numRequests, manager, contri, approversCount, balance }) {
 
 export async function getServerSideProps(context) {
   const { addressId } = context.query;
+  try {
+    const campaign = createCampaign(addressId);
 
-  const campaign = createCampaign(addressId);
-
-  const numRequests = await campaign.methods.numRequests().call();
-  const manager = await campaign.methods.manager().call();
-  const contri = await campaign.methods.minimumContribution().call();
-  const approversCount = await campaign.methods.approversCount().call();
-  const balance = await web3.eth.getBalance(campaign.options.address);
-
+    const numRequests = await campaign.methods.numRequests().call();
+    const manager = await campaign.methods.manager().call();
+    const contri = await campaign.methods.minimumContribution().call();
+    const approversCount = await campaign.methods.approversCount().call();
+    const balance = await web3.eth.getBalance(campaign.options.address);
+    return {
+      props: { numRequests, manager, contri, approversCount, balance },
+    };
+  } catch (err) {
+    console.log(err);
+  }
   return {
-    props: { numRequests, manager, contri, approversCount, balance },
+    props: {},
+    notFound: true,
   };
 }
 
